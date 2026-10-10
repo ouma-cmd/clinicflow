@@ -8,13 +8,25 @@ const roleMiddleware = require("../../middlewares/role.middleware");
 
 const router = express.Router();
 
+
+
 router.post(
   "/",
   authMiddleware,
   validate(createPatientSchema),
   patientController.createPatient,
 );
-
+/**
+ * @swagger
+ * /api/patients:
+ *   get:
+ *     summary: Get all patients
+ *     tags:
+ *       - Patients
+ *     responses:
+ *       200:
+ *         description: Success
+ */
 router.get("/", authMiddleware, patientController.getPatients);
 
 router.get("/:id", authMiddleware, patientController.getPatientById);
