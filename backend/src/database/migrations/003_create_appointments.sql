@@ -8,7 +8,8 @@ CREATE TABLE appointments (
     appointment_date TIMESTAMP NOT NULL,
 
     status VARCHAR(20) NOT NULL DEFAULT 'pending',
-
+    CHECK (status IN ('pending', 'confirmed', 'cancelled'))
+    
     reason TEXT NOT NULL,
 
     notes TEXT,
