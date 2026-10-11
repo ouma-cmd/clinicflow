@@ -1,7 +1,10 @@
 const patientService = require("./patient.service");
 
 const createPatient = async (req, res) => {
-  const patient = await patientService.createPatient(req.body);
+  const patient = await patientService.createPatient({
+    ...req.body,
+    createdBy: req.user.id,
+  });
 
   return res.status(201).json(patient);
 };

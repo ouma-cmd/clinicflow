@@ -24,6 +24,10 @@ const createAppointment = async (data, userId) => {
 };
 
 const getAppointments = async (status = null, page = 1, limit = 10) => {
+  if (status === "") {
+    status = null;
+  }
+
   const offset = (page - 1) * limit;
 
   const appointments = await appointmentRepository.getAppointments(
