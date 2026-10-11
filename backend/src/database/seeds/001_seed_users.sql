@@ -1,28 +1,15 @@
-INSERT INTO users
-(
-    full_name,
-    email,
-    password_hash,
-    role
-)
+INSERT INTO
+    users (full_name, email, password_hash, role)
 VALUES
-(
-    'Admin Clinic',
-    'admin@clinicflow.com',
-    '$2b$10$8Yx6JjZ3hQ4GQq7zWnM8Ue4Yw7lJ0f6j0zXq9Qy4uQx8k0m0W8K5G',
-    'admin'
-),
-
-(
-    'Staff One',
-    'staff1@clinicflow.com',
-    '$2b$10$8Yx6JjZ3hQ4GQq7zWnM8Ue4Yw7lJ0f6j0zXq9Qy4uQx8k0m0W8K5G',
-    'staff'
-),
-
-(
-    'Staff Two',
-    'staff2@clinicflow.com',
-    '$2b$10$8Yx6JjZ3hQ4GQq7zWnM8Ue4Yw7lJ0f6j0zXq9Qy4uQx8k0m0W8K5G',
-    'staff'
-);
+    (
+        'Admin Clinic',
+        'admin@clinicflow.com',
+        '$2b$10$D4rFRgVbh3Rb79IOtfJgzuvyAF1AE3e3oQxZOklhjDBDXsEqWfhp2',
+        'admin'
+    ),
+    (
+        'Staff One',
+        'staff1@clinicflow.com',
+        '$2b$10$aDwgscL5qVdWrinAzoSIau93ewtxA0..X8TPQS41kee6v.raTQXIa',
+        'staff'
+    );
