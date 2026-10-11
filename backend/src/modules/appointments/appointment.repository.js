@@ -139,6 +139,25 @@ const cancelAppointment = async (id) => {
   return result.rows[0];
 };
 
+const updateStatus = async (id, status) => {
+  const result = await pool.query(
+    `
+UPDATE appointments
+
+SET
+ status=$1,
+ updated_at=CURRENT_TIMESTAMP
+
+WHERE id=$2
+
+RETURNING *
+`,
+    [status, id],
+  );
+
+  return result.rows[0];
+};
+
 module.exports = {
   checkAppointmentConflict,
   createAppointment,
@@ -146,4 +165,5 @@ module.exports = {
   getAppointmentById,
   updateAppointment,
   cancelAppointment,
+  updateStatus,
 };

@@ -82,10 +82,21 @@ const cancelAppointment = async (id) => {
   return await appointmentRepository.cancelAppointment(id);
 };
 
+const updateStatus = async (id, status) => {
+  const appointment = await appointmentRepository.getAppointmentById(id);
+
+  if (!appointment) {
+    throw new Error("Appointment not found");
+  }
+
+  return await appointmentRepository.updateStatus(id, status);
+};
+
 module.exports = {
   createAppointment,
   getAppointments,
   getAppointmentById,
   updateAppointment,
   cancelAppointment,
+  updateStatus,
 };

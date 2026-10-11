@@ -20,7 +20,21 @@ const updateAppointmentSchema = z.object({
   notes: z.string().optional(),
 });
 
+
+const updateStatusSchema = z.object({
+  status: z.enum(["pending", "confirmed", "cancelled"]),
+});
+
 module.exports = {
   createAppointmentSchema,
-  updateAppointmentSchema
+
+  updateAppointmentSchema,
+
+  updateStatusSchema,
+};
+
+module.exports = {
+  createAppointmentSchema,
+  updateAppointmentSchema,
+  updateStatusSchema,
 };

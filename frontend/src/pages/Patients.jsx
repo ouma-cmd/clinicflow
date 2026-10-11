@@ -9,6 +9,8 @@ import {
 
 import PatientForm from "../components/PatientForm";
 
+import { useNavigate } from "react-router-dom";
+
 function Patients() {
   const [patients, setPatients] = useState([]);
 
@@ -19,6 +21,7 @@ function Patients() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -139,7 +142,14 @@ function Patients() {
           <tbody>
             {patients.map((patient) => (
               <tr key={patient.id} className="border-b">
-                <td className="p-4">{patient.full_name}</td>
+                <td className="p-4">
+                  <button
+                    className="text-blue-600 font-semibold"
+                    onClick={() => navigate(`/patients/${patient.id}`)}
+                  >
+                    {patient.full_name}
+                  </button>
+                </td>
 
                 <td className="text-center">{patient.cin}</td>
 

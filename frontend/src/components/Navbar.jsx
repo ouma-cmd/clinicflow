@@ -1,13 +1,33 @@
 import { LogOut, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getMe } from "../services/authService";
 
 function Navbar() {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user")) || {
+  const [user, setUser] = useState({
     fullName: "User",
     role: "staff",
-  };
+  });
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await getMe();
+
+        console.log("AUTH ME:", response);
+
+        setUser(response.user);
+
+        localStorage.setItem("user", JSON.stringify(response.user));
+      } catch (error) {
+        console.error("AUTH ME ERROR:", error);
+      }
+    };
+
+    loadUser();
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -31,15 +51,15 @@ function Navbar() {
           </div>
 
           <div className="hidden md:block">
-            <p className="font-semibold text-gray-800">{user.fullName}</p>
+            <p className="font-semibold text-gray-800">{user?.fullName}</p>
 
-            <p className="text-sm capitalize text-gray-500">{user.role}</p>
+            <p className="text-sm capitalize text-gray-500">{user?.role}</p>
           </div>
         </div>
 
         <button
           onClick={logout}
-          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition"
+          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl"
         >
           <LogOut size={18} />
           Logout

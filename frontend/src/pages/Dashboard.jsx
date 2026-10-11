@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+
+import { getMe } from "../services/authService";
 import api from "../api/axios";
 
 function Dashboard() {
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  const isAdmin = user?.role === "admin";
+  const [user, setUser] = useState(null);
 
   const [stats, setStats] = useState({
     patients: {
       total: 0,
     },
+
     appointments: {
       today: 0,
       confirmed: 0,
@@ -18,6 +19,22 @@ function Dashboard() {
     },
   });
 
+  const isAdmin = user?.role === "admin";
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await getMe();
+
+        setUser(response.user);
+      } catch (error) {
+        console.error("USER ERROR:", error);
+      }
+    };
+
+    loadUser();
+  }, []);
+
   useEffect(() => {
     const getStats = async () => {
       try {
@@ -25,21 +42,26 @@ function Dashboard() {
 
         setStats(response.data);
       } catch (error) {
-        console.error(error);
+        console.error("DASHBOARD ERROR:", error);
       }
     };
 
     getStats();
   }, []);
 
+  if (!user) {
+    return <div className="p-6">Loading...</div>;
+  }
+
   return (
     <div className="p-6 bg-slate-50 min-h-screen">
       <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
 
-      <p className="text-gray-500 mb-6">Welcome back, {user?.fullName}</p>
+      <p className="text-gray-500 mb-6">Welcome back, {user.fullName}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {/* Patients */}
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-40">
           <p className="text-gray-500">👥 Patients</p>
 
@@ -48,7 +70,8 @@ function Dashboard() {
           </h2>
         </div>
 
-        {/* Today's appointments */}
+        {/* Today appointments */}
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-40">
           <p className="text-gray-500">📅 Today Appointments</p>
 
@@ -58,6 +81,7 @@ function Dashboard() {
         </div>
 
         {/* Confirmed */}
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-40">
           <p className="text-gray-500">✅ Confirmed</p>
 
@@ -67,6 +91,7 @@ function Dashboard() {
         </div>
 
         {/* Pending */}
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-40">
           <p className="text-gray-500">⏳ Pending</p>
 
@@ -75,7 +100,8 @@ function Dashboard() {
           </h2>
         </div>
 
-        {/* Cancelled - Admin only */}
+        {/* Cancelled */}
+
         {isAdmin && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-40">
             <p className="text-gray-500">❌ Cancelled</p>

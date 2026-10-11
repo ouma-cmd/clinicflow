@@ -7,7 +7,7 @@ import Appointments from "../pages/Appointments";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 import ProtectedRoute from "./ProtectedRoute";
-import Users from "../pages/Users";
+import PatientDetails from "../pages/PatientDetails";
 
 function AppRoutes() {
   return (
@@ -36,6 +36,8 @@ function AppRoutes() {
         }
       />
 
+      <Route path="/patients/:id" element={<PatientDetails />} />
+
       <Route
         path="/appointments"
         element={
@@ -46,7 +48,6 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-    
     </Routes>
   );
 }

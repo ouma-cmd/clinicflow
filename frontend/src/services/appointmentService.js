@@ -1,11 +1,7 @@
 import api from "../api/axios";
 
 export const getAppointments = async (status = "") => {
-  const response = await api.get("/appointments", {
-    params: {
-      status,
-    },
-  });
+  const response = await api.get(`/appointments?status=${status}`);
 
   return response.data;
 };
@@ -28,3 +24,10 @@ export const cancelAppointment = async (id) => {
   return response.data;
 };
 
+export const updateStatus = async (id, status) => {
+  const response = await api.patch(`/appointments/${id}/status`, {
+    status,
+  });
+
+  return response.data;
+};

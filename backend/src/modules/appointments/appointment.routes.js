@@ -6,6 +6,7 @@ const validate = require("../../middlewares/validate.middleware");
 const {
   createAppointmentSchema,
   updateAppointmentSchema,
+  updateStatusSchema,
 } = require("./appointment.validation");
 
 const router = express.Router();
@@ -32,5 +33,12 @@ router.patch(
   "/:id/cancel",
   authMiddleware,
   appointmentController.cancelAppointment,
+);
+
+router.patch(
+  "/:id/status",
+  authMiddleware,
+  validate(updateStatusSchema),
+  appointmentController.updateStatus,
 );
 module.exports = router;

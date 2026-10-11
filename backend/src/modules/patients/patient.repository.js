@@ -64,10 +64,31 @@ const countPatients = async (search) => {
 const getPatientById = async (id) => {
   const result = await pool.query(
     `
-    SELECT *
-    FROM patients
-    WHERE id = $1
-    AND deleted_at IS NULL
+    SELECT 
+      p.*,
+
+      COALESCE(
+        json_agg(
+          json_build_object(
+            'id', a.id,
+            'appointment_date', a.appointment_date,
+            'status', a.status,
+            'reason', a.reason,
+            'notes', a.notes
+          )
+        ) FILTER (WHERE a.id IS NOT NULL),
+        '[]'
+      ) AS appointments
+
+    FROM patients p
+
+    LEFT JOIN appointments a
+      ON a.patient_id = p.id
+
+    WHERE p.id = $1
+    AND p.deleted_at IS NULL
+
+    GROUP BY p.id
     `,
     [id],
   );
@@ -123,5 +144,5 @@ module.exports = {
   countPatients,
   getPatientById,
   updatePatient,
-  deletePatient
+  deletePatient,
 };
